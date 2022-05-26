@@ -3,7 +3,7 @@
 # (c) @AlbertEinsteinTG
 
 import re
-from pyrogram import Client, filters
+from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot import VERIFY # pylint: disable=import-error
@@ -17,7 +17,7 @@ async def settings(bot, update):
 
     if VERIFY.get(str(chat_id)) == None: # Make Admin's ID List
         admin_list = []
-        async for x in bot.iter_chat_members(chat_id=chat_id, filter="administrators"):
+        async for x in bot.get_chat_members(chat_id=chat_id, filter=enums.ChatMembersFilter.ADMINISTRATORS):
             admin_id = x.user.id 
             admin_list.append(admin_id)
         admin_list.append(None)
@@ -76,8 +76,8 @@ async def settings(bot, update):
         chat_id=chat_id, 
         text=text, 
         reply_markup=reply_markup, 
-        parse_mode="html",
-        reply_to_message_id=update.message_id
+        parse_mode=enums.ParseMode.HTML,
+        reply_to_message_id=update.id
         
         )
 
